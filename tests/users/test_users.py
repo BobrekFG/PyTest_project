@@ -1,3 +1,4 @@
+import pytest
 import requests
 from src.baseclasses.response import Response
 
@@ -16,7 +17,20 @@ def test_getting_user_list(get_users, make_number):
     print(make_number)
 
 
-
+@pytest.mark.development
+@pytest.mark.production
+@pytest.mark.skip('[ISSUE-23414] issue with network connection')
 def test_another():
     assert 1 == 1
 
+
+@pytest.mark.development
+@pytest.mark.parametrize('first_value, second_value, result', [
+    (1, 2, 3),
+    (-1, -2, -3),
+    (-1, 2, 1),
+    ('b', -2, None),
+    ('b', 'b', None)
+])
+def test_calculator(first_value, second_value, result, calculate):
+    assert calculate(first_value, second_value) == result
